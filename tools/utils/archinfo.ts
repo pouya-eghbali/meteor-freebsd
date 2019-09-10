@@ -132,6 +132,7 @@ export const VALID_ARCHITECTURES: Record<string, boolean> = {
   "os.linux.x86_64": true,
   "os.windows.x86_64": true,
   "os.windows.x86_32": true,
+  "os.freebsd.x86_64": true,
 };
 
 // Returns the fully qualified arch of this host -- something like
@@ -169,6 +170,19 @@ export function host() {
         _host = "os.linux.x86_64";
       } else {
         throw new Error(`Unsupported architecture: ${machine}`);
+      }
+    } else if (["linux", "freebsd", "openbsd", "netbsd"].includes(platform)) {
+      var machine = run('uname', '-m');
+      if (["i386", "i686", "x86"].includes(machine)) {
+        _host = "os." + platform + ".x86_32";
+      } else if (["x86_64", "amd64", "ia64"].includes(machine)) {
+        _host = "os." + platform + ".x86_64";
+      } else if (["armv6l"].includes(machine)) {
+        _host = "os." + platform + ".armv6l";
+      } else if (["armv7l"].includes(machine)) {
+        _host = "os." + platform + ".armv7l";
+      } else {
+        throw new Error("Unsupported architecture: " + machine);
       }
     } else if (platform === "win32") {
       if (process.arch === "x64") {

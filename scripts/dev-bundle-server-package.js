@@ -12,7 +12,7 @@ var packageJson = {
     // found in dev-bundle-tool-package.js.
     fibers: "4.0.1",
     "meteor-promise": "0.8.7",
-    promise: "8.0.2",
+    promise: "8.0.3",
     reify: "0.20.12",
     "@babel/parser": "7.5.5",
     "@types/underscore": "1.9.2",

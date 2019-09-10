@@ -5,7 +5,7 @@ set -u
 
 UNAME=$(uname)
 ARCH=$(uname -m)
-NODE_VERSION=12.7.0
+NODE_VERSION=12.10.0
 MONGO_VERSION_64BIT=4.0.6
 MONGO_VERSION_32BIT=3.2.22
 NPM_VERSION=6.10.2
@@ -21,6 +21,18 @@ if [ "$UNAME" == "Linux" ] ; then
     fi
 
     OS="linux"
+
+        stripBinary() {
+        strip --remove-section=.comment --remove-section=.note $1
+    }
+elif [ "$UNAME" == "FreeBSD" ] ; then
+    if [ "$ARCH" != "i386" -a "$ARCH" != "amd64" ] ; then
+        echo "Unsupported architecture: $ARCH"
+        echo "Meteor only supports i386 and amd64 for now."
+        exit 1
+    fi
+
+    OS="freebsd"
 
     stripBinary() {
         strip --remove-section=.comment --remove-section=.note $1
@@ -63,6 +75,18 @@ then
     elif [ "$ARCH" == "x86_64" ]
     then
         NODE_TGZ="node-v${NODE_VERSION}-linux-x64.tar.gz"
+    else
+        echo "Unknown architecture: $UNAME $ARCH"
+        exit 1
+    fi
+elif [ "$UNAME" == "FreeBSD" ]
+then
+    if [ "$ARCH" == "i386" ]
+    then
+        NODE_TGZ="node-v${NODE_VERSION}-freebsd-x86.tar.gz"
+    elif [ "$ARCH" == "amd64" ]
+    then
+        NODE_TGZ="node-v${NODE_VERSION}-freebsd-x64.tar.gz"
     else
         echo "Unknown architecture: $UNAME $ARCH"
         exit 1
