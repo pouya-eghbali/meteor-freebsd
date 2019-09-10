@@ -1,3 +1,7 @@
+# Meteor FreeBSD
+
+This is the latest 1.9-alpha version of Meteor, always updated to use the latest NodeJS available in FreeBSD ports. I'm using this to develop Meteor apps on my FreeBSD laptop and I do my best to keep it up to date.
+
 # <a href='https://www.meteor.com'><img src='https://user-images.githubusercontent.com/841294/26841702-0902bbee-4af3-11e7-9805-0618da66a246.png' height='60' alt='Meteor'></a>
 
 [![TravisCI Status](https://travis-ci.org/meteor/meteor.svg?branch=devel)](https://travis-ci.org/meteor/meteor)
