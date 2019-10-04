@@ -14,7 +14,7 @@ N/A
 ### Changes
 
 * Node.js has been updated to version
-  [12.7.0](https://nodejs.org/en/blog/release/v12.7.0/), which includes
+  [12.10.0](https://nodejs.org/en/blog/release/v12.10.0/), which includes
   several major Node.js versions since 8.16.0 (used by Meteor 1.8.2):
   * [12.0.0](https://nodejs.org/en/blog/release/v12.0.0/)
   * [11.0.0](https://nodejs.org/en/blog/release/v10.0.0/)
@@ -27,7 +27,7 @@ N/A
   8.0.2, with [PR #128](https://github.com/atom/node-pathwatcher/pull/128)
   applied.
 
-* The `sqlite3` npm package has been updated to version 4.0.6.
+* The `sqlite3` npm package has been updated to version 4.1.0.
 
 * The `node-gyp` npm package has been updated to version 4.0.0, and
   `node-pre-gyp` has been updated to version 0.13.0.
@@ -40,7 +40,7 @@ N/A
 ### Migration Steps
 
 * Be sure to update the `@babel/runtime` npm package to its latest version
-  (currently 7.5.5):
+  (currently 7.6.0):
   ```sh
   meteor npm install @babel/runtime@latest
   ```
@@ -54,11 +54,24 @@ N/A
 ### Changes
 
 * Node has been updated to version
-  [8.16.0](https://nodejs.org/en/blog/release/v8.16.0/).
+  [8.16.1](https://nodejs.org/en/blog/release/v8.16.1/).
 
-* The `npm` npm package has been updated to version 6.10.2, and our
-  [fork](https://github.com/meteor/pacote/tree/v9.5.4-meteor) of its
-  `pacote` dependency has been updated to version 9.5.4.
+* The `npm` npm package has been updated to version 6.11.3, and our
+  [fork](https://github.com/meteor/pacote/tree/v9.5.8-meteor) of its
+  `pacote` dependency has been updated to version 9.5.8.
+
+* New Meteor applications now include an official `typescript` package,
+  supporting TypeScript compilation of `.ts` and `.tsx` modules, which can
+  be added to existing apps by running `meteor add typescript`.
+
+* New TypeScript-based Meteor applications can be created by running
+  ```sh
+  meteor create --typescript new-typescript-app
+  ```
+  This app skeleton contains a recommended tsconfig.json file, and should
+  serve as a reference for how to make TypeScript and Meteor work together
+  (to the best of our current knowledge).
+  [PR #10695](https://github.com/meteor/meteor/pull/10695)
 
 * When bundling client code, the Meteor module system now prefers the
   `"module"` field in `package.json`, if defined.
@@ -76,23 +89,35 @@ N/A
   See [PR #10603](https://github.com/meteor/meteor/pull/10603) for further
   explanation.
 
+* The Meteor build process is now able to detect whether files changed in
+  development were actually used by the server bundle, so that a full
+  server restart can be avoided when no files used by the server bundle
+  have changed. Client-only refreshes are typically much faster than
+  server restarts.
+  [Issue #10449](https://github.com/meteor/meteor/issues/10449)
+  [PR #10686](https://github.com/meteor/meteor/pull/10686)
+
 * The `mongodb` npm package used by the `npm-mongo` Meteor package has
   been updated to version 3.2.7.
 
-* The `meteor-babel` npm package has been updated to version 7.5.7,
+* The `meteor-babel` npm package has been updated to version 7.6.1,
   enabling compilation of the `meteor/tools` codebase with TypeScript
-  (specifically, version 3.5.3 of the `typescript` npm package).
+  (specifically, version 3.6.2 of the `typescript` npm package).
 
 * The `reify` npm package has been updated to version 0.20.12.
 
 * The `core-js` npm package used by `ecmascript-runtime-client` and
-  `ecmascript-runtime-server` has been updated to version 3.1.4.
+  `ecmascript-runtime-server` has been updated to version 3.2.1.
+
+* The `terser` npm package used by `minifier-js` (and indirectly by
+  `standard-minifier-js`) has been updated to version 4.3.1.
 
 * The `node-gyp` npm package has been updated to version 5.0.1, and
   `node-pre-gyp` has been updated to 0.13.0.
 
-* The `optimism` npm package has been updated to version 0.10.2, which
-  enables caching of thrown exceptions, as well as ordinary results.
+* The `optimism` npm package has been updated to version 0.11.3, which
+  enables caching of thrown exceptions as well as ordinary results, in
+  addition to performance improvements.
 
 * The `pathwatcher` npm package has been updated to version 8.1.0.
 

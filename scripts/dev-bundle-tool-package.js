@@ -10,19 +10,19 @@ var packageJson = {
   dependencies: {
     // Explicit dependency because we are replacing it with a bundled version
     // and we want to make sure there are no dependencies on a higher version
-    npm: "6.10.2",
-    pacote: "https://github.com/meteor/pacote/tarball/bdd1a189f71142c9eb87c4298784e2f17746a5d7",
+    npm: "6.11.3",
+    pacote: "https://github.com/meteor/pacote/tarball/00b3b094e6074e45fc221d5bd96419d07ea34c6a",
     "node-gyp": "5.0.1",
     "node-pre-gyp": "0.13.0",
-    typescript: "3.5.3",
-    "meteor-babel": "7.5.7",
+    typescript: "3.6.3",
+    "meteor-babel": "7.6.1",
     // Keep the versions of these packages consistent with the versions
     // found in dev-bundle-server-package.js.
     "meteor-promise": "0.8.7",
     fibers: "4.0.1",
     reify: "0.20.12",
     // So that Babel can emit require("@babel/runtime/helpers/...") calls.
-    "@babel/runtime": "7.5.5",
+    "@babel/runtime": "7.6.0",
     // For backwards compatibility with isopackets that still depend on
     // babel-runtime rather than @babel/runtime.
     "babel-runtime": "7.0.0-beta.3",
@@ -33,6 +33,7 @@ var packageJson = {
     semver: "5.4.1",
     request: "2.88.0",
     uuid: "3.3.2",
+    "graceful-fs": "4.2.2",
     fstream: "https://github.com/meteor/fstream/tarball/cf4ea6c175355cec7bee38311e170d08c4078a5d",
     tar: "2.2.1",
     // Fork of kexec@3.0.0 with my Node.js 12 compatibility PR
@@ -40,8 +41,7 @@ var packageJson = {
     kexec: "https://github.com/meteor/node-kexec/tarball/f29f54037c7db6ad29e1781463b182e5929215a0",
     "source-map": "0.5.7",
     chalk: "0.5.1",
-    // Latest master version of sqlite3, based on version 4.0.6.
-    sqlite3: "https://github.com/mapbox/node-sqlite3/tarball/4f5b9963161c4ab8abd255f22d226361aa434cf4",
+    sqlite3: "4.1.0",
     "http-proxy": "1.16.2",
     "is-reachable": "3.1.0",
     "wordwrap": "0.0.2",
@@ -59,7 +59,7 @@ var packageJson = {
     pathwatcher: "8.1.0",
     // The @wry/context package version must be compatible with the
     // version constraint imposed by optimism/package.json.
-    optimism: "0.10.2",
+    optimism: "0.11.3",
     "@wry/context": "0.4.4",
     'lru-cache': '4.1.3'
   }
