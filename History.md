@@ -14,7 +14,7 @@ N/A
 ### Changes
 
 * Node.js has been updated to version
-  [12.13.0](https://nodejs.org/en/blog/release/v12.13.0/), which includes
+  [13.0.0](https://nodejs.org/en/blog/release/v13.0.0/), which includes
   several major Node.js versions since 8.16.0 (used by Meteor 1.8.2):
   * [12.0.0](https://nodejs.org/en/blog/release/v12.0.0/)
   * [11.0.0](https://nodejs.org/en/blog/release/v10.0.0/)
@@ -56,7 +56,7 @@ N/A
 * Node has been updated to version
   [8.16.2](https://nodejs.org/en/blog/release/v8.16.2/).
 
-* The `npm` npm package has been updated to version 6.11.3, and our
+* The `npm` npm package has been updated to version 6.12.1, and our
   [fork](https://github.com/meteor/pacote/tree/v9.5.8-meteor) of its
   `pacote` dependency has been updated to version 9.5.8.
 
