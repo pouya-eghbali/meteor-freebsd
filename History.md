@@ -32,15 +32,21 @@ N/A
 * The `node-gyp` npm package has been updated to version 4.0.0, and
   `node-pre-gyp` has been updated to version 0.13.0.
 
-## v1.8.2, TBD
+## v1.8.2, 2019-11-14
 
 ### Breaking changes
-N/A
+
+* Module-level variable declarations named `require` or `exports` are no
+  longer automatically renamed, so they may collide with module function
+  parameters of the same name, leading to errors like
+  `Uncaught SyntaxError: Identifier 'exports' has already been declared`.
+  See [this comment](https://github.com/meteor/meteor/pull/10522#issuecomment-535535056)
+  by [@SimonSimCity](https://github.com/SimonSimCity).
 
 ### Migration Steps
 
 * Be sure to update the `@babel/runtime` npm package to its latest version
-  (currently 7.6.0):
+  (currently 7.7.2):
   ```sh
   meteor npm install @babel/runtime@latest
   ```
@@ -56,9 +62,9 @@ N/A
 * Node has been updated to version
   [8.16.2](https://nodejs.org/en/blog/release/v8.16.2/).
 
-* The `npm` npm package has been updated to version 6.12.1, and our
-  [fork](https://github.com/meteor/pacote/tree/v9.5.8-meteor) of its
-  `pacote` dependency has been updated to version 9.5.8.
+* The `npm` npm package has been updated to version 6.13.0, and our
+  [fork](https://github.com/meteor/pacote/tree/v9.5.9-meteor) of its
+  `pacote` dependency has been updated to version 9.5.9.
 
 * New Meteor applications now include an official `typescript` package,
   supporting TypeScript compilation of `.ts` and `.tsx` modules, which can
@@ -73,9 +79,14 @@ N/A
   (to the best of our current knowledge).
   [PR #10695](https://github.com/meteor/meteor/pull/10695)
 
-* When bundling client code, the Meteor module system now prefers the
-  `"module"` field in `package.json`, if defined.
-  [PR #10541](https://github.com/meteor/meteor/pull/10541)
+* When bundling modern client code, the Meteor module system now prefers
+  the `"module"` field in `package.json` (if defined) over the `"main"`
+  field, which should unlock various `import`/`export`-based optimizations
+  such as tree shaking in future versions of Meteor. As before, server
+  code uses only the `"main"` field, like Node.js, and legacy client code
+  prefers `"browser"`, `"main"`, and then `"module"`.
+  [PR #10541](https://github.com/meteor/meteor/pull/10541),
+  [PR #10765](https://github.com/meteor/meteor/pull/10765).
 
 * ECMAScript module syntax (`import`, `export`, and dynamic `import()`) is
   now supported by default everywhere, including in modules imported from
@@ -93,16 +104,17 @@ N/A
   development were actually used by the server bundle, so that a full
   server restart can be avoided when no files used by the server bundle
   have changed. Client-only refreshes are typically much faster than
-  server restarts.
+  server restarts. Run `meteor add autoupdate` to enable client refreshes,
+  if you are not already using the `autoupdate` package.
   [Issue #10449](https://github.com/meteor/meteor/issues/10449)
   [PR #10686](https://github.com/meteor/meteor/pull/10686)
 
 * The `mongodb` npm package used by the `npm-mongo` Meteor package has
   been updated to version 3.2.7.
 
-* The `meteor-babel` npm package has been updated to version 7.6.1,
+* The `meteor-babel` npm package has been updated to version 7.7.0,
   enabling compilation of the `meteor/tools` codebase with TypeScript
-  (specifically, version 3.6.2 of the `typescript` npm package).
+  (specifically, version 3.7.2 of the `typescript` npm package).
 
 * The `reify` npm package has been updated to version 0.20.12.
 
@@ -134,6 +146,9 @@ N/A
   serve static resources, which is useful when multiple Cordova apps are built
   from the same application source code, since by default the port is generated
   using the ID from the application's `.meteor/.id` file.
+
+* The `--test-app-path <directory>` option for `meteor test-packages` and
+  `meteor test` now accepts relative paths as well as absolute paths.
 
 ## v1.8.1, 2019-04-03
 
@@ -1026,6 +1041,20 @@ N/A
   the `<head />` section as before (for backwards compatibility).
   [Feature #24](https://github.com/meteor/meteor-feature-requests/issues/24)
   [PR #9657](https://github.com/meteor/meteor/pull/9657)
+
+## v1.6.1.4, 2018-08-16
+
+### Breaking changes
+N/A
+
+### Migration Steps
+N/A
+
+### Changes
+
+* Node has been updated to version
+  [8.11.4](https://nodejs.org/en/blog/release/v8.11.4/), an important
+  [security release](https://nodejs.org/en/blog/vulnerability/august-2018-security-releases/).
 
 ## v1.6.1.3, 2018-06-16
 
