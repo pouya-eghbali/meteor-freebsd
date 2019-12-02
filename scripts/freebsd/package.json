@@ -1,0 +1,18 @@
+{
+  "name": "freebsd-meteor-scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.7.2",
+    "@babel/register": "^7.7.0",
+    "babel-preset-meteor": "^7.7.0",
+    "esm": "^3.2.25"
+  }
+}

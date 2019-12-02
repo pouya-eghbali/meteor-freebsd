@@ -1,5 +1,3 @@
-## v.NEXT
-
 ## v1.9
 
 ### Breaking changes
@@ -21,6 +19,10 @@ N/A
   * [10.0.0](https://nodejs.org/en/blog/release/v10.0.0/)
   * [9.0.0](https://nodejs.org/en/blog/release/v9.0.0/)
 
+* The `npm` npm package has been updated to version 6.13.1, and our
+  [fork](https://github.com/meteor/pacote/tree/v9.5.9-meteor) of its
+  `pacote` dependency remains at version 9.5.9.
+
 * The `fibers` npm package has been updated to version 4.0.2.
 
 * The `pathwatcher` npm package has been updated to use a fork of version
@@ -29,8 +31,14 @@ N/A
 
 * The `sqlite3` npm package has been updated to version 4.1.0.
 
-* The `node-gyp` npm package has been updated to version 4.0.0, and
-  `node-pre-gyp` has been updated to version 0.13.0.
+* The `node-gyp` npm package has been updated to version 6.0.1, and
+  `node-pre-gyp` has been updated to version 0.14.0.
+
+## v.NEXT
+
+### Changes
+
+* The `meteor-babel` npm package has been updated to version 7.7.4.
 
 ## v1.8.2, 2019-11-14
 
@@ -56,6 +64,24 @@ N/A
   ```sh
   meteor npm install meteor-node-stubs@next
   ```
+
+* If you are the author of any Meteor packages, and you encounter errors
+  when using those packages in a Meteor 1.8.2 application (for example,
+  `module.watch` being undefined), we recommend that you bump the minor
+  version of your package and republish it using Meteor 1.8.2, so
+  Meteor 1.8.2 applications will automatically use the new version of the
+  package, as compiled by Meteor 1.8.2:
+  ```sh
+  cd path/to/your/package
+  # Add api.versionsFrom("1.8.2") to Package.onUse in package.js...
+  meteor --release 1.8.2 publish
+  ```
+  This may not be necessary for all packages, especially those that have
+  been recently republished using Meteor 1.8.1, or local packages in the
+  `packages/` directory (which are always recompiled from source).
+  However, republishing packages is a general solution to a wide variety
+  of package versioning and compilation problems, and package authors can
+  make their users' lives easier by handling these issues proactively.
 
 ### Changes
 
