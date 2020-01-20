@@ -24,8 +24,8 @@ import { iOSRunTarget, AndroidRunTarget } from '../cordova/run-targets.js';
 
 import { EXAMPLE_REPOSITORIES } from './example-repositories.js';
 
-// The architecture used by MDG's hosted servers; it's the architecture used by
-// 'meteor deploy'.
+// The architecture used by Meteor Software's hosted servers; it's the
+// architecture used by 'meteor deploy'.
 var DEPLOY_ARCH = 'os.linux.x86_64';
 
 // The default port that the development server listens on.
@@ -161,6 +161,16 @@ export function parseRunTargets(targets) {
     }
   });
 };
+
+const excludableWebArchs = ['web.browser', 'web.browser.legacy', 'web.cordova'];
+function filterWebArchs(webArchs, excludeArchsOption) {
+  if (excludeArchsOption) {
+    const excludeArchs = excludeArchsOption.trim().split(/\s*,\s*/)
+      .filter(arch => excludableWebArchs.includes(arch));
+    webArchs = webArchs.filter(arch => !excludeArchs.includes(arch));
+  }
+  return webArchs;
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // options that act like commands
@@ -318,7 +328,8 @@ var runCommandOptions = {
     // Allow the version solver to make breaking changes to the versions
     // of top-level dependencies.
     'allow-incompatible-update': { type: Boolean },
-    'extra-packages': { type: String }
+    'extra-packages': { type: String },
+    'exclude-archs': { type: String }
   },
   catalogRefresh: new catalog.Refresh.Never()
 };
@@ -399,6 +410,7 @@ function doRunCommand(options) {
       webArchs.push("web.cordova");
     }
   }
+  webArchs = filterWebArchs(webArchs, options['exclude-archs']);
 
   let cordovaRunner;
   if (!_.isEmpty(runTargets)) {
@@ -862,6 +874,12 @@ main.registerCommand({
   Console.info("If you are new to Meteor, try some of the learning resources here:");
   Console.info(
     Console.url("https://www.meteor.com/tutorials"),
+      Console.options({ indent: 2 }));
+
+  Console.info("");
+  Console.info("When you’re ready to deploy and host your new Meteor application, check out Galaxy:");
+  Console.info(
+    Console.url("https://www.meteor.com/hosting"),
       Console.options({ indent: 2 }));
 
   if (! options.bare &&
@@ -1629,7 +1647,9 @@ testCommandOptions = {
     // For 'test-packages': Run in "full app" mode
     'full-app': { type: Boolean, 'default': false },
 
-    'extra-packages': { type: String }
+    'extra-packages': { type: String },
+
+    'exclude-archs': { type: String }
   }
 };
 
@@ -1972,6 +1992,11 @@ var runTestAppForPackages = function (projectContext, options) {
     minifyMode: options.production ? 'production' : 'development'
   };
   buildOptions.buildMode = "test";
+  let webArchs = projectContext.platformList.getWebArchs();
+  if (options.cordovaRunner) {
+    webArchs.push("web.cordova");
+  }
+  buildOptions.webArchs = filterWebArchs(webArchs, options['exclude-archs']);
 
   if (options.deploy) {
     // Run the constraint solver and build local packages.
@@ -2401,7 +2426,7 @@ main.registerCommand({
     json: { type: Boolean },
     verbose: { type: Boolean, short: "v" },
     // By default, we give you a machine for 5 minutes. You can request up to
-    // 15. (MDG can reserve machines for longer than that.)
+    // 15. (Meteor Software can reserve machines for longer than that.)
     minutes: { type: Number }
   },
   pretty: false,
