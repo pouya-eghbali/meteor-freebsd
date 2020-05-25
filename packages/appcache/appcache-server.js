@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor'
-import { isModern } from "meteor/modern-browsers";
 import { WebApp } from "meteor/webapp";
 import crypto from 'crypto';
 import fs from 'fs';
@@ -7,6 +6,7 @@ import path from 'path';
 
 let _disableSizeCheck = false;
 let disabledBrowsers = {};
+let enableCallback = null;
 
 Meteor.AppCache = {
   config: options => {
@@ -20,6 +20,9 @@ Meteor.AppCache = {
         value.forEach(urlPrefix =>
           RoutePolicy.declare(urlPrefix, 'static-online')
         );
+      }
+      else if (option === 'enableCallback') {
+        enableCallback = value;
       }
       // option to suppress warnings for tests.
       else if (option === '_disableSizeCheck') {
@@ -37,7 +40,13 @@ Meteor.AppCache = {
   }
 };
 
-const browserDisabled = request => disabledBrowsers[request.browser.name];
+const browserDisabled = request => {
+  if (enableCallback) {
+    return !enableCallback(request);
+  }
+
+  return disabledBrowsers[request.browser.name];
+}
 
 // Cache of previously computed app.manifest files.
 const manifestCache = new Map;
@@ -78,12 +87,12 @@ WebApp.connectHandlers.use((req, res, next) => {
   }
 
   const cacheInfo = {
-    modern: isModern(request.browser),
+    // Provided by WebApp.categorizeRequest.
+    modern: request.modern,
   };
 
-  cacheInfo.arch = cacheInfo.modern
-    ? "web.browser"
-    : "web.browser.legacy";
+  // Also provided by WebApp.categorizeRequest.
+  cacheInfo.arch = request.arch;
 
   // The true hash of the client manifest for this arch, regardless of
   // AUTOUPDATE_VERSION or Autoupdate.autoupdateVersion.
